@@ -43,7 +43,11 @@ module Rack
       end
 
       def container_selector(env)
-        env['HTTP_X_PJAX_CONTAINER'] || "[@data-pjax-container]"
+        if env['HTTP_X_PJAX_CONTAINER']
+          env['HTTP_X_PJAX_CONTAINER'].gsub(/\[(.+)\]/,'[@\1]')
+        else
+          "[@data-pjax-container]"
+        end
       end
   end
 end
